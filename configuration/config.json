@@ -1,0 +1,10 @@
+{
+  "cleanupdelay": 600000000000,
+  "excludeNamespaces": "kube-system,kubescape",
+  "includeNamespaces": "",
+  "matchingrulesfilename": "/etc/config/matchingRules.json",
+  "namespace": "kubescape",
+  "port": "4002",
+  "triggersecurityframework": false,
+  "workerconcurrency": 3
+}

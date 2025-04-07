@@ -1,0 +1,214 @@
+package main
+
+import (
+	"context"
+	"flag"
+	"fmt"
+	"net/http"
+	_ "net/http/pprof"
+	"net/url"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+
+	"github.com/armosec/utils-k8s-go/probes"
+	beUtils "github.com/kubescape/backend/pkg/utils"
+	"github.com/kubescape/go-logger"
+	"github.com/kubescape/go-logger/helpers"
+	"github.com/kubescape/k8s-interface/k8sinterface"
+	"github.com/Aryaman6492/node-agent/pkg/rulebindingmanager"
+	"github.com/Aryaman6492/node-agent/pkg/watcher/dynamicwatcher"
+	exporters "github.com/Aryaman6492/operator/admission/exporter"
+	rulebindingcachev1 "github.com/Aryaman6492/operator/admission/rulebinding/cache"
+	"github.com/Aryaman6492/operator/admission/webhook"
+	"github.com/Aryaman6492/operator/config"
+	"github.com/Aryaman6492/operator/mainhandler"
+	"github.com/Aryaman6492/operator/objectcache"
+	"github.com/Aryaman6492/operator/restapihandler"
+	"github.com/Aryaman6492/operator/servicehandler"
+	"github.com/Aryaman6492/operator/utils"
+	kssc "github.com/Aryaman6492/storage/pkg/generated/clientset/versioned"
+	"k8s.io/apimachinery/pkg/runtime"
+	restclient "k8s.io/client-go/rest"
+)
+
+//go:generate swagger generate spec -o ./docs/swagger.yaml
+func main() {
+	ctx := context.Background()
+	flag.Parse()
+
+	isReadinessReady := false
+	go probes.InitReadinessV1(&isReadinessReady)
+
+	displayBuildTag()
+
+	clusterConfig, err := config.LoadClusterConfig()
+	if err != nil {
+		logger.L().Ctx(ctx).Fatal("load clusterData error", helpers.Error(err))
+	}
+
+	components, err := config.LoadCapabilitiesConfig("/etc/config")
+	if err != nil {
+		logger.L().Ctx(ctx).Fatal("load components error", helpers.Error(err))
+	}
+	logger.L().Debug("loaded config for components", helpers.Interface("components", components))
+
+	var credentials *beUtils.Credentials
+	if credentials, err = beUtils.LoadCredentialsFromFile("/etc/credentials"); err != nil {
+		logger.L().Ctx(ctx).Error("failed to load credentials", helpers.Error(err))
+		credentials = &beUtils.Credentials{}
+	} else {
+		logger.L().Info("credentials loaded",
+			helpers.Int("accessKeyLength", len(credentials.AccessKey)),
+			helpers.Int("accountLength", len(credentials.Account)))
+	}
+
+	var eventReceiverRestURL string
+	if components.Components.ServiceDiscovery.Enabled {
+		services, err := config.GetServiceURLs("/etc/config/services.json")
+		if err != nil {
+			logger.L().Ctx(ctx).Fatal("failed discovering urls", helpers.Error(err))
+		}
+
+		eventReceiverRestURL = services.GetReportReceiverHttpUrl()
+		logger.L().Debug("setting eventReceiverRestURL", helpers.String("url", eventReceiverRestURL))
+	}
+
+	cfg, err := config.LoadConfig("/etc/config")
+	if err != nil {
+		logger.L().Ctx(ctx).Fatal("load config error", helpers.Error(err))
+	}
+
+	// wrapper for all configs
+	operatorConfig := config.NewOperatorConfig(components, clusterConfig, credentials, eventReceiverRestURL, cfg)
+	if err := config.ValidateConfig(operatorConfig); err != nil {
+		logger.L().Ctx(ctx).Error("validate config error", helpers.Error(err))
+	}
+
+	// to enable otel, set OTEL_COLLECTOR_SVC=otel-collector:4317
+	if otelHost, present := os.LookupEnv("OTEL_COLLECTOR_SVC"); present && components.Components.OtelCollector.Enabled {
+		ctx = logger.InitOtel("operator",
+			os.Getenv("RELEASE"),
+			operatorConfig.AccountID(),
+			operatorConfig.ClusterName(),
+			url.URL{Host: otelHost})
+		defer logger.ShutdownOtel(ctx)
+	}
+
+	initHttpHandlers(operatorConfig)
+	k8sApi := k8sinterface.NewKubernetesApi()
+	restclient.SetDefaultWarningHandler(restclient.NoWarnings{})
+	k8sConfig := k8sApi.K8SConfig
+	// force GRPC
+	k8sConfig.AcceptContentTypes = "application/vnd.kubernetes.protobuf"
+	k8sConfig.ContentType = "application/vnd.kubernetes.protobuf"
+	ksStorageClient, err := kssc.NewForConfig(k8sConfig)
+	if err != nil {
+		logger.L().Ctx(ctx).Fatal("unable to initialize the storage client", helpers.Error(err))
+	}
+
+	kubernetesCache := objectcache.NewKubernetesCache(k8sApi)
+
+	// Creating the ObjectCache using KubernetesCache
+	objectCache := objectcache.NewObjectCache(kubernetesCache)
+
+	if components.ServiceScanConfig.Enabled {
+		logger.L().Info("service discovery enabled and started with interval: ", helpers.String("interval", components.ServiceScanConfig.Interval.String()))
+		go servicehandler.DiscoveryServiceHandler(ctx, k8sApi, components.ServiceScanConfig.Interval)
+	}
+
+	exporter, err := exporters.InitHTTPExporter(*operatorConfig.HttpExporterConfig(), operatorConfig.ClusterName())
+	if err != nil {
+		logger.L().Ctx(ctx).Fatal("failed to initialize HTTP exporter", helpers.Error(err))
+	}
+
+	// setup main handler
+	mainHandler := mainhandler.NewMainHandler(operatorConfig, k8sApi, exporter, ksStorageClient)
+
+	go func() { // open a REST API connection listener
+		restAPIHandler := restapihandler.NewHTTPHandler(mainHandler.EventWorkerPool(), operatorConfig)
+		if err := restAPIHandler.SetupHTTPListener(cfg.RestAPIPort); err != nil {
+			logger.L().Ctx(ctx).Fatal(err.Error(), helpers.Error(err))
+		}
+	}()
+
+	if components.Components.ServiceDiscovery.Enabled {
+		logger.L().Debug("triggering a full kubescapeScan on startup")
+		go mainHandler.StartupTriggerActions(ctx, mainhandler.GetStartupActions(operatorConfig))
+	}
+
+	isReadinessReady = true
+
+	// wait for requests to come from the websocket or from the REST API
+	go mainHandler.HandleCommandResponse(ctx)
+	mainHandler.HandleWatchers(ctx)
+
+	if operatorConfig.ContinuousScanEnabled() {
+		go func(mh *mainhandler.MainHandler) {
+			err := mh.SetupContinuousScanning(ctx)
+			logger.L().Info("set up cont scanning service")
+			if err != nil {
+				logger.L().Ctx(ctx).Fatal(err.Error(), helpers.Error(err))
+			}
+		}(mainHandler)
+	}
+
+	if operatorConfig.AdmissionControllerEnabled() {
+		serverContext, serverCancel := context.WithCancel(ctx)
+
+		addr := ":8443"
+
+		// Create watchers
+		dWatcher := dynamicwatcher.NewWatchHandler(k8sApi, ksStorageClient.SpdxV1beta1(), operatorConfig.SkipNamespace)
+
+		// create ruleBinding cache
+		ruleBindingCache := rulebindingcachev1.NewCache(k8sApi)
+		dWatcher.AddAdaptor(ruleBindingCache)
+
+		ruleBindingNotify := make(chan rulebindingmanager.RuleBindingNotify, 100)
+		ruleBindingCache.AddNotifier(&ruleBindingNotify)
+
+		admissionController := webhook.New(addr, "/etc/certs/tls.crt", "/etc/certs/tls.key", runtime.NewScheme(), webhook.NewAdmissionValidator(k8sApi, objectCache, exporter, ruleBindingCache), ruleBindingCache)
+		// Start HTTP REST server for webhook
+		go func() {
+			defer func() {
+				// Cancel the server context to stop other workers
+				serverCancel()
+			}()
+
+			err := admissionController.Run(serverContext)
+			logger.L().Ctx(ctx).Fatal("server stopped", helpers.Error(err))
+		}()
+
+		// start watching
+		dWatcher.Start(ctx)
+		defer dWatcher.Stop(ctx)
+	}
+
+	if logger.L().GetLevel() == helpers.DebugLevel.String() {
+		go func() {
+			// start pprof server -> https://pkg.go.dev/net/http/pprof
+			logger.L().Info("starting pprof server", helpers.String("port", "6060"))
+			logger.L().Error(http.ListenAndServe(":6060", nil).Error())
+		}()
+	}
+
+	// send reports every 24 hours
+	go mainHandler.SendReports(ctx, 24*time.Hour)
+
+	// Wait for shutdown signal
+	shutdown := make(chan os.Signal, 1)
+	signal.Notify(shutdown, os.Interrupt, syscall.SIGTERM)
+	<-shutdown
+	<-ctx.Done()
+}
+
+func displayBuildTag() {
+	logger.L().Info(fmt.Sprintf("Image version: %s", os.Getenv("RELEASE")))
+}
+
+func initHttpHandlers(config config.IConfig) {
+	mainhandler.KubescapeHttpClient = utils.InitHttpClient(config.KubescapeURL())
+	mainhandler.VulnScanHttpClient = utils.InitHttpClient(config.KubevulnURL())
+}

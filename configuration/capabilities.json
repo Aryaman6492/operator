@@ -1,0 +1,54 @@
+{
+  "capabilities": {
+    "configurationScan": "enable",
+    "continuousScan": "disable",
+    "nodeScan": "enable",
+    "relevancy": "enable",
+    "vulnerabilityScan": "enable",
+    "admissionController": "enable"
+  },
+  "components": {
+    "hostScanner": {
+      "enabled": true
+    },
+    "kubescape": {
+      "enabled": true
+    },
+    "kubescapeScheduler": {
+      "enabled": true
+    },
+    "kubevuln": {
+      "enabled": true
+    },
+    "kubevulnScheduler": {
+      "enabled": true
+    },
+    "nodeAgent": {
+      "enabled": true
+    },
+    "operator": {
+      "enabled": true
+    },
+    "otelCollector": {
+      "enabled": true
+    },
+    "serviceDiscovery": {
+      "enabled": true
+    },
+    "storage": {
+      "enabled": true
+    }
+  },
+  "configurations": {
+    "persistence": "enable",
+    "server": {
+      "account": null,
+      "discoveryUrl": "foo.com",
+      "otelUrl": null
+    }
+  }, 
+    "serviceScanConfig":{
+      "enabled": true,
+      "interval": "60s"
+    }
+}
