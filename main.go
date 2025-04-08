@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/armosec/utils-k8s-go/probes"
-	beUtils "github.com/kubescape/backend/pkg/utils"
+	beUtils "github.com/Aryaman6492/backend/pkg/utils"
 	"github.com/kubescape/go-logger"
 	"github.com/kubescape/go-logger/helpers"
 	"github.com/kubescape/k8s-interface/k8sinterface"

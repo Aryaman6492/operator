@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	utilsmetadata "github.com/armosec/utils-k8s-go/armometadata"
-	beUtils "github.com/kubescape/backend/pkg/utils"
+	beUtils "github.com/Aryaman6492/backend/pkg/utils"
 	"github.com/Aryaman6492/operator/config"
 	"github.com/Aryaman6492/operator/utils"
 	kssfake "github.com/Aryaman6492/storage/pkg/generated/clientset/versioned/fake"

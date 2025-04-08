@@ -20,7 +20,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/goradd/maps v1.2.0
 	github.com/gorilla/mux v1.8.1
-	github.com/kubescape/backend v0.0.26
+	github.com/Aryaman6492/backend v0.0.26
 	github.com/kubescape/go-logger v0.0.23
 	github.com/kubescape/k8s-interface v0.0.189
 	github.com/kubescape/kubescape-network-scanner v0.0.15
@@ -44,7 +44,7 @@ require (
 )
 
 replace github.com/Aryaman6492/node-agent => /home/ripeey/Desktop/cqs-sensor/copycon/node-agent
-
+replace github.com/Aryaman6492/backend => /home/ripeey/Desktop/cqs-sensor/copycon/backend
 replace github.com/Aryaman6492/storage => /home/ripeey/Desktop/cqs-sensor/copycon/storage
 
 require (

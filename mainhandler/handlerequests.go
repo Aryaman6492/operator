@@ -13,7 +13,7 @@ import (
 	"github.com/armosec/utils-go/httputils"
 	pkgwlid "github.com/armosec/utils-k8s-go/wlid"
 	mapset "github.com/deckarep/golang-set/v2"
-	"github.com/kubescape/backend/pkg/versioncheck"
+	"github.com/Aryaman6492/backend/pkg/versioncheck"
 	"github.com/kubescape/go-logger"
 	"github.com/kubescape/go-logger/helpers"
 	instanceidhandlerv1 "github.com/kubescape/k8s-interface/instanceidhandler/v1"

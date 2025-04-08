@@ -9,7 +9,7 @@ import (
 	utilsmetadata "github.com/armosec/utils-k8s-go/armometadata"
 	armowlid "github.com/armosec/utils-k8s-go/wlid"
 	uuid "github.com/google/uuid"
-	beUtils "github.com/kubescape/backend/pkg/utils"
+	beUtils "github.com/Aryaman6492/backend/pkg/utils"
 	opautilsmetav1 "github.com/kubescape/opa-utils/httpserver/meta/v1"
 	"github.com/kubescape/opa-utils/objectsenvelopes"
 	"github.com/Aryaman6492/operator/config"

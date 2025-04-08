@@ -6,7 +6,7 @@ import (
 	"github.com/armosec/armoapi-go/apis"
 	"github.com/armosec/utils-go/boolutils"
 	utilsmetadata "github.com/armosec/utils-k8s-go/armometadata"
-	beUtils "github.com/kubescape/backend/pkg/utils"
+	beUtils "github.com/Aryaman6492/backend/pkg/utils"
 	utilsapisv1 "github.com/kubescape/opa-utils/httpserver/apis/v1"
 	utilsmetav1 "github.com/kubescape/opa-utils/httpserver/meta/v1"
 	"github.com/Aryaman6492/operator/config"

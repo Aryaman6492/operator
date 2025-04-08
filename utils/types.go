@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/armosec/armoapi-go/apis"
-	"github.com/kubescape/backend/pkg/command/types/v1alpha1"
+	"github.com/Aryaman6492/backend/pkg/command/types/v1alpha1"
 	"github.com/kubescape/go-logger"
 	"github.com/kubescape/go-logger/helpers"
 	"github.com/kubescape/k8s-interface/k8sinterface"
