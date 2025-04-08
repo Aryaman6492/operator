@@ -19,7 +19,7 @@ import (
 type AuthMethods string
 
 const (
-	registryScanConfigmap                   = "kubescape-registry-scan"
+	registryScanConfigmap                   = "seclogic-registry-scan"
 	registryNameField                       = "registryName"
 	secretNameField                         = "secretName"
 	imagesToScanLimit                       = 500
@@ -69,7 +69,7 @@ func getRegistryScanSecrets(k8sAPI *k8sinterface.KubernetesApi, namespace, secre
 		}
 	}
 
-	// when secret name is not provided, we will try to find all secrets starting with kubescape-registry-scan
+	// when secret name is not provided, we will try to find all secrets starting with seclogic-registry-scan
 	var registryScanSecrets []k8sinterface.IWorkload
 	err := pager.New(func(ctx context.Context, opts metav1.ListOptions) (runtime.Object, error) {
 		return k8sAPI.KubernetesClient.CoreV1().Secrets(namespace).List(ctx, opts)

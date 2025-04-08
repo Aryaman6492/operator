@@ -5,7 +5,7 @@ data:
     kind: CronJob
     metadata:
       name: registry-scheduler
-      namespace: kubescape
+      namespace: seclogic
       labels:
         app: registry-scheduler
         seclogic.io/tier: "core"
@@ -64,18 +64,18 @@ data:
 kind: ConfigMap
 metadata:
   annotations:
-    meta.helm.sh/release-name: kubescape
-    meta.helm.sh/release-namespace: kubescape
+    meta.helm.sh/release-name: seclogic
+    meta.helm.sh/release-namespace: seclogic
   labels:
     app: ks-cloud-config
     app.kubernetes.io/component: ks-cloud-config
-    app.kubernetes.io/instance: kubescape
+    app.kubernetes.io/instance: seclogic
     app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: kubescape-operator
+    app.kubernetes.io/name: seclogic-operator
     app.kubernetes.io/version: 1.22.4
-    helm.sh/chart: kubescape-operator-1.22.4
+    helm.sh/chart: seclogic-operator-1.22.4
     seclogic.io/ignore: "true"
     seclogic.io/tier: core
     tier: ks-control-plane
   name: registry-scan-cronjob-template
-  namespace: kubescape
+  namespace: seclogic

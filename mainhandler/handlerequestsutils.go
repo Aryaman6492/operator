@@ -58,7 +58,7 @@ func waitForKubescapeReady(config config.IConfig) {
 		}
 		defer resp.Body.Close()
 		if resp.StatusCode >= 200 && resp.StatusCode <= 203 {
-			logger.L().Info("kubescape service is ready")
+			logger.L().Info("seclogic service is ready")
 			break
 		}
 

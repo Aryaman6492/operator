@@ -89,7 +89,7 @@ func readKubescapeV1ScanResponse(resp *http.Response) (*utilsmetav1.Response, er
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return response, fmt.Errorf("received status code '%d' from kubescape, body: %s", resp.StatusCode, resp.Body)
+		return response, fmt.Errorf("received status code '%d' from seclogic, body: %s", resp.StatusCode, resp.Body)
 	}
 
 	bodyBytes, err := io.ReadAll(resp.Body)
@@ -178,19 +178,19 @@ func createTriggerRequestConfigMap(k8sAPI *k8sinterface.KubernetesApi, namespace
 }
 
 func combineKubescapeCMDArgsWithFrameworkName(frameworkName string, currentArgs []string) []string {
-	kubescapeScanCMDToken := "scan"
-	kubescapeFrameworkCMDToken := "framework"
+	seclogicScanCMDToken := "scan"
+	seclogicFrameworkCMDToken := "framework"
 	for len(currentArgs) > 0 && !strings.HasPrefix(currentArgs[0], "-") {
 		currentArgs = currentArgs[1:]
 	}
-	firstArgs := []string{kubescapeScanCMDToken}
+	firstArgs := []string{seclogicScanCMDToken}
 	if frameworkName != "" {
-		firstArgs = []string{kubescapeScanCMDToken, kubescapeFrameworkCMDToken, frameworkName}
+		firstArgs = []string{seclogicScanCMDToken, seclogicFrameworkCMDToken, frameworkName}
 	}
 	return append(firstArgs, currentArgs...)
 }
 
-// wrapRequestWithCommand wrap kubescape post request  with command so the websocket can parse the request
+// wrapRequestWithCommand wrap seclogic post request  with command so the websocket can parse the request
 func wrapRequestWithCommand(postScanRequest *utilsmetav1.PostScanRequest) ([]byte, error) {
 
 	c := apis.Commands{

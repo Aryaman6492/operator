@@ -23,10 +23,10 @@ import (
 
 const (
 	WaitTimeForKubescapeScanResponse = 40
-	KubescapeCronJobTemplateName     = "kubescape-cronjob-template"
+	KubescapeCronJobTemplateName     = "seclogic-cronjob-template"
 )
 
-type kubescapeResponseData struct {
+type seclogicResponseData struct {
 	scanID     string
 	sessionObj *utils.SessionObj
 }
@@ -39,16 +39,16 @@ func (actionHandler *ActionHandler) deleteKubescapeCronJob(ctx context.Context) 
 		return errors.New("KubescapeScheduler is not enabled")
 	}
 
-	kubescapeJobParams := getKubescapeJobParams(actionHandler.sessionObj.Command)
-	if kubescapeJobParams == nil {
-		return fmt.Errorf("failed to convert kubescapeJobParams list to KubescapeJobParams")
+	seclogicJobParams := getKubescapeJobParams(actionHandler.sessionObj.Command)
+	if seclogicJobParams == nil {
+		return fmt.Errorf("failed to convert seclogicJobParams list to KubescapeJobParams")
 	}
 
-	if err := actionHandler.k8sAPI.KubernetesClient.BatchV1().CronJobs(actionHandler.config.Namespace()).Delete(context.Background(), kubescapeJobParams.JobName, metav1.DeleteOptions{}); err != nil {
+	if err := actionHandler.k8sAPI.KubernetesClient.BatchV1().CronJobs(actionHandler.config.Namespace()).Delete(context.Background(), seclogicJobParams.JobName, metav1.DeleteOptions{}); err != nil {
 		return err
 	}
 
-	if err := actionHandler.k8sAPI.KubernetesClient.CoreV1().ConfigMaps(actionHandler.config.Namespace()).Delete(context.Background(), kubescapeJobParams.JobName, metav1.DeleteOptions{}); err != nil {
+	if err := actionHandler.k8sAPI.KubernetesClient.CoreV1().ConfigMaps(actionHandler.config.Namespace()).Delete(context.Background(), seclogicJobParams.JobName, metav1.DeleteOptions{}); err != nil {
 		return err
 	}
 	return nil
@@ -64,7 +64,7 @@ func (actionHandler *ActionHandler) updateKubescapeCronJob(ctx context.Context) 
 
 	jobParams := getKubescapeJobParams(actionHandler.sessionObj.Command)
 	if jobParams == nil {
-		return fmt.Errorf("failed to convert kubescapeJobParams list to KubescapeJobParams")
+		return fmt.Errorf("failed to convert seclogicJobParams list to KubescapeJobParams")
 	}
 
 	jobTemplateObj, err := actionHandler.k8sAPI.KubernetesClient.BatchV1().CronJobs(actionHandler.config.Namespace()).Get(context.Background(), jobParams.JobName, metav1.GetOptions{})
@@ -123,8 +123,8 @@ func (actionHandler *ActionHandler) setKubescapeCronJob(ctx context.Context) err
 }
 
 func HandleKubescapeResponse(ctx context.Context, config config.IConfig, payload interface{}) (bool, *time.Duration) {
-	data := payload.(*kubescapeResponseData)
-	logger.L().Info(fmt.Sprintf("handle kubescape response for scan id %s", data.scanID))
+	data := payload.(*seclogicResponseData)
+	logger.L().Info(fmt.Sprintf("handle seclogic response for scan id %s", data.scanID))
 
 	resp, err := httputils.HttpGetWithContext(ctx, KubescapeHttpClient, getKubescapeV1ScanStatusURL(config, data.scanID).String(), nil)
 	if err != nil {
@@ -154,12 +154,12 @@ func HandleKubescapeResponse(ctx context.Context, config config.IConfig, payload
 	return false, nil
 }
 
-func (actionHandler *ActionHandler) kubescapeScan(ctx context.Context) error {
-	ctx, span := otel.Tracer("").Start(ctx, "actionHandler.kubescapeScan")
+func (actionHandler *ActionHandler) seclogicScan(ctx context.Context) error {
+	ctx, span := otel.Tracer("").Start(ctx, "actionHandler.seclogicScan")
 	defer span.End()
 
 	if !actionHandler.config.Components().Kubescape.Enabled {
-		return errors.New("kubescape is not enabled")
+		return errors.New("seclogic is not enabled")
 	}
 
 	request, err := getKubescapeV1ScanRequest(actionHandler.sessionObj.Command.Args)
@@ -194,7 +194,7 @@ func (actionHandler *ActionHandler) kubescapeScan(ctx context.Context) error {
 		// sessionObj.SetOperatorCommandStatus(ctx, utils.WithSuccess(), utils.WithPayload([]byte(response.ID)))
 	}
 
-	data := &kubescapeResponseData{
+	data := &seclogicResponseData{
 		scanID:     response.ID,
 		sessionObj: actionHandler.sessionObj,
 	}
@@ -209,8 +209,8 @@ func (actionHandler *ActionHandler) kubescapeScan(ctx context.Context) error {
 }
 
 func getCronTabSchedule(command *armoapi.Command) string {
-	if kubescapeJobParams := getKubescapeJobParams(command); kubescapeJobParams != nil {
-		return kubescapeJobParams.CronTabSchedule
+	if seclogicJobParams := getKubescapeJobParams(command); seclogicJobParams != nil {
+		return seclogicJobParams.CronTabSchedule
 	}
 	if schedule, ok := command.Args["cronTabSchedule"]; ok {
 		if s, k := schedule.(string); k {
@@ -233,19 +233,19 @@ func getKubescapeJobParams(command *armoapi.Command) *armoapi.CronJobParams {
 	}
 
 	// fallback
-	if jobParams, ok := command.Args["kubescapeJobParams"]; ok {
-		if kubescapeJobParams, ok := jobParams.(armoapi.CronJobParams); ok {
-			return &kubescapeJobParams
+	if jobParams, ok := command.Args["seclogicJobParams"]; ok {
+		if seclogicJobParams, ok := jobParams.(armoapi.CronJobParams); ok {
+			return &seclogicJobParams
 		}
 		b, err := json.Marshal(jobParams)
 		if err != nil {
 			return nil
 		}
-		kubescapeJobParams := &armoapi.CronJobParams{}
-		if err = json.Unmarshal(b, kubescapeJobParams); err != nil {
+		seclogicJobParams := &armoapi.CronJobParams{}
+		if err = json.Unmarshal(b, seclogicJobParams); err != nil {
 			return nil
 		}
-		return kubescapeJobParams
+		return seclogicJobParams
 	}
 	return nil
 }

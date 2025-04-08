@@ -1,6 +1,6 @@
 {
   "cleanupdelay": 600000000000,
-  "excludeNamespaces": "kube-system,kubescape",
+  "excludeNamespaces": "kube-system,seclogic",
   "includeNamespaces": "",
   "matchingrulesfilename": "/etc/config/matchingRules.json",
   "namespace": "seclogic",

@@ -53,7 +53,7 @@ func TestRegistryCommandWatch(t *testing.T) {
 	time.Sleep(time.Second * 10)
 
 	// verify resources are created
-	resourceName := "kubescape-registry-scan-2122797310"
+	resourceName := "seclogic-registry-scan-2122797310"
 	configMap, err := k8sAPI.KubernetesClient.CoreV1().ConfigMaps("seclogic").Get(ctx, resourceName, metav1.GetOptions{})
 	require.NoError(t, err)
 	require.NotNil(t, configMap)
@@ -105,7 +105,7 @@ func setupEnvAndWatchers(t *testing.T, ctx context.Context, k8sAPI *k8sinterface
 	}).Create(ctx, &crd, metav1.CreateOptions{})
 	require.NoError(t, err)
 
-	// add kubescape namespace
+	// add seclogic namespace
 	namespace := &corev1.Namespace{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: "seclogic",

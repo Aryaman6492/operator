@@ -232,7 +232,7 @@ func (actionHandler *ActionHandler) runCommand(ctx context.Context) error {
 	case utils.CommandScanApplicationProfile:
 		return actionHandler.scanApplicationProfile(ctx)
 	case apis.TypeRunKubescape, apis.TypeRunKubescapeJob:
-		return actionHandler.kubescapeScan(ctx)
+		return actionHandler.seclogicScan(ctx)
 	case apis.TypeSetKubescapeCronJob:
 		return actionHandler.setKubescapeCronJob(ctx)
 	case apis.TypeUpdateKubescapeCronJob:

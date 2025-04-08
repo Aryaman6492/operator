@@ -102,11 +102,11 @@ func TestGetKubescapeV1ScanURL(t *testing.T) {
 
 func TestGetKubescapeV1ScanStatusURL(t *testing.T) {
 	cfg := config.NewOperatorConfig(config.CapabilitiesConfig{}, utilsmetadata.ClusterConfig{
-		KubescapeURL: "armo-kubescape:8080",
+		KubescapeURL: "armo-seclogic:8080",
 	}, &beUtils.Credentials{}, "", config.Config{})
 
 	url := getKubescapeV1ScanStatusURL(cfg, "123").String()
-	assert.Equal(t, url, "http://armo-kubescape:8080/v1/status?ID=123", "getKubescapeV1ScanStatusURL failed")
+	assert.Equal(t, url, "http://armo-seclogic:8080/v1/status?ID=123", "getKubescapeV1ScanStatusURL failed")
 }
 
 func TestAppendSecurityFramework(t *testing.T) {

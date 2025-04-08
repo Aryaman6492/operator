@@ -4,7 +4,7 @@
             "CommandName": "updateRegistryScanCronJob",
             "args": {
                 "jobParams": {
-                    "name": "kubescape-registry-scan-6185063278658353525",
+                    "name": "seclogic-registry-scan-6185063278658353525",
                     "cronTabSchedule": "* 2 * 2 *"
                 },
                 "registryInfo-v1": {

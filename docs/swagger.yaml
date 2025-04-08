@@ -18,7 +18,7 @@ definitions:
           execPostureScan TypeExecPostureScan  Execute a posture scan
           updateRules TypeUpdateRules
           runKubescapeJob TypeRunKubescapeJob
-          kubescapeScan TypeRunKubescape  Trigger a Kubescape scan
+          seclogicScan TypeRunKubescape  Trigger a Kubescape scan
           setKubescapeCronJob TypeSetKubescapeCronJob  Create a CronJob that runs a Kubescape scan
           updateKubescapeCronJob TypeUpdateKubescapeCronJob  Update a CronJob that runs a Kubescape scan
           deleteKubescapeCronJob TypeDeleteKubescapeCronJob  Delete a CronJob that runs a Kubescape scan
@@ -48,7 +48,7 @@ definitions:
         - execPostureScan
         - updateRules
         - runKubescapeJob
-        - kubescapeScan
+        - seclogicScan
         - setKubescapeCronJob
         - updateKubescapeCronJob
         - deleteKubescapeCronJob
@@ -80,7 +80,7 @@ definitions:
           execPostureScan TypeExecPostureScan  Execute a posture scan
           updateRules TypeUpdateRules
           runKubescapeJob TypeRunKubescapeJob
-          kubescapeScan TypeRunKubescape  Trigger a Kubescape scan
+          seclogicScan TypeRunKubescape  Trigger a Kubescape scan
           setKubescapeCronJob TypeSetKubescapeCronJob  Create a CronJob that runs a Kubescape scan
           updateKubescapeCronJob TypeUpdateKubescapeCronJob  Update a CronJob that runs a Kubescape scan
           deleteKubescapeCronJob TypeDeleteKubescapeCronJob  Delete a CronJob that runs a Kubescape scan

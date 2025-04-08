@@ -27,7 +27,7 @@ const (
 	group        = "seclogic.io"
 	version      = "v1"
 	apiVersion   = group + "/" + version
-	fieldManager = "kubescape|operator|serviceDiscoveryHandler"
+	fieldManager = "seclogic|operator|serviceDiscoveryHandler"
 	workerNum    = int(20)
 )
 

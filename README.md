@@ -17,8 +17,8 @@ If you will be running the Operator as part of the Kubescape cluster components,
 
 
 	```    
-	kubectl port-forward -n kubescape service/kubescape 8080:8080 & 
-	kubectl port-forward -n kubescape service/shieldvuln 8081:8080 & 
+	kubectl port-forward -n seclogic service/kubescape 8080:8080 & 
+	kubectl port-forward -n seclogic service/shieldvuln 8081:8080 & 
 	```
 
 3. Add configuration files.
@@ -45,7 +45,7 @@ If you will be running the Operator as part of the Kubescape cluster components,
     "seclogic": {
       "enabled": true
     },
-    "kubescapeScheduler": {
+    "seclogicScheduler": {
       "enabled": true
     },
     "shieldvuln": {
@@ -83,7 +83,7 @@ If you will be running the Operator as part of the Kubescape cluster components,
 ```json5
 {
    "shieldvulnURL": "127.0.0.1:8081",
-   "kubescapeURL": "127.0.0.1:8080",
+   "seclogicURL": "127.0.0.1:8080",
    "accountID": "*********************",
    "clusterName": "******"
 }
@@ -147,7 +147,7 @@ If continuous scanning is enabled, add the following configuration file (change 
 The Operator provides an HTTP API.
 
 You can learn more about the API using one of the provided interactive OpenAPI UIs:
-- [SwaggerUI](https://www.armosec.io/blog/introducing-kubescape-open-api-framework/?utm_source=github&utm_medium=repository), available at `/openapi/v2/swaggerui`
+- [SwaggerUI](https://www.armosec.io/blog/introducing-seclogic-open-api-framework/?utm_source=github&utm_medium=repository), available at `/openapi/v2/swaggerui`
 - RapiDoc, available at `/openapi/v2/rapi`
 - Redoc, available at `/openapi/v2/docs`
 
@@ -182,7 +182,7 @@ curl -X POST \
    -d '{
 	    "commands": [
 		{
-		    "CommandName": "kubescapeScan",
+		    "CommandName": "seclogicScan",
 		    "args": {
 			"scanV1": {
 			    "submit": true
@@ -206,7 +206,7 @@ curl -X POST \
 		{
 		    "CommandName": "setKubescapeCronJob",
 		    "args": {
-			"kubescapeJobParams": {
+			"seclogicJobParams": {
 			    "cronTabSchedule": "* * * * *"
 			},
 			"scanV1": {
@@ -231,7 +231,7 @@ curl -X POST \
 		{
 		    "CommandName": "setKubescapeCronJob",
 		    "args": {
-			"kubescapeJobParams": {
+			"seclogicJobParams": {
 			    "cronTabSchedule": "* * * * *"
 			},
 			"scanV1": {
@@ -379,7 +379,7 @@ For example:
 ```json5
 {
     "shieldvulnURL": "",
-    "kubescapeURL": "",
+    "seclogicURL": "",
     "accountID": "*********************",
     "clusterName": "******"
 }

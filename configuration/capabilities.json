@@ -14,7 +14,7 @@
     "seclogic": {
       "enabled": true
     },
-    "kubescapeScheduler": {
+    "seclogicScheduler": {
       "enabled": true
     },
     "shieldvuln": {
