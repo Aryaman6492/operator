@@ -4,7 +4,7 @@ import (
 	_ "embed"
 	"testing"
 
-	utilsmetadata "github.com/armosec/utils-k8s-go/armometadata"
+	utilsmetadata "github.com/Aryaman6492/utils-k8s-go/armometadata"
 	beUtils "github.com/Aryaman6492/backend/pkg/utils"
 	"github.com/Aryaman6492/operator/config"
 	"github.com/Aryaman6492/operator/utils"

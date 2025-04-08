@@ -2,7 +2,7 @@ package rules
 
 import (
 	apitypes "github.com/armosec/armoapi-go/armotypes"
-	"github.com/armosec/utils-k8s-go/wlid"
+	"github.com/Aryaman6492/utils-k8s-go/wlid"
 	"github.com/Aryaman6492/operator/admission/rules"
 )
 

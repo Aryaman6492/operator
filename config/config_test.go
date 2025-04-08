@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/armosec/utils-k8s-go/armometadata"
+	"github.com/Aryaman6492/utils-k8s-go/armometadata"
 	"github.com/Aryaman6492/backend/pkg/utils"
 	"github.com/stretchr/testify/assert"
 )

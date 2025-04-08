@@ -11,7 +11,7 @@ import (
 	"github.com/armosec/armoapi-go/identifiers"
 	"github.com/armosec/utils-go/boolutils"
 	"github.com/armosec/utils-go/httputils"
-	pkgwlid "github.com/armosec/utils-k8s-go/wlid"
+	pkgwlid "github.com/Aryaman6492/utils-k8s-go/wlid"
 	mapset "github.com/deckarep/golang-set/v2"
 	"github.com/Aryaman6492/backend/pkg/versioncheck"
 	"github.com/kubescape/go-logger"

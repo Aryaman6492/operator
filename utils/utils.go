@@ -9,7 +9,7 @@ import (
 
 	"github.com/armosec/armoapi-go/apis"
 	"github.com/armosec/utils-go/httputils"
-	pkgwlid "github.com/armosec/utils-k8s-go/wlid"
+	pkgwlid "github.com/Aryaman6492/utils-k8s-go/wlid"
 	"github.com/kubescape/k8s-interface/instanceidhandler"
 	instanceidhandlerv1 "github.com/kubescape/k8s-interface/instanceidhandler/v1"
 	"github.com/kubescape/k8s-interface/k8sinterface"

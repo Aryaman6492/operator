@@ -6,7 +6,7 @@ import (
 	"slices"
 	"time"
 
-	utilsmetadata "github.com/armosec/utils-k8s-go/armometadata"
+	utilsmetadata "github.com/Aryaman6492/utils-k8s-go/armometadata"
 	"github.com/Aryaman6492/backend/pkg/servicediscovery"
 	"github.com/Aryaman6492/backend/pkg/servicediscovery/schema"
 	v2 "github.com/Aryaman6492/backend/pkg/servicediscovery/v2"
@@ -120,7 +120,7 @@ type IConfig interface {
 	CleanUpRoutineInterval() time.Duration
 	MatchingRulesFilename() string
 	TriggerSecurityFramework() bool
-	KubescapeURL() string
+	seclogicURL() string
 	shieldvulnURL() string
 	SkipNamespace(ns string) bool
 	GuardTime() time.Duration
@@ -163,8 +163,8 @@ func (c *OperatorConfig) shieldvulnURL() string {
 	return c.clusterConfig.shieldvulnURL
 }
 
-func (c *OperatorConfig) KubescapeURL() string {
-	return c.clusterConfig.KubescapeURL
+func (c *OperatorConfig) seclogicURL() string {
+	return c.clusterConfig.seclogicURL
 }
 
 func (c *OperatorConfig) TriggerSecurityFramework() bool {

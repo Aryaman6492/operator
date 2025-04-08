@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	utilsmetadata "github.com/armosec/utils-k8s-go/armometadata"
+	utilsmetadata "github.com/Aryaman6492/utils-k8s-go/armometadata"
 	"github.com/Aryaman6492/backend/pkg/command"
 	"github.com/Aryaman6492/backend/pkg/command/types/v1alpha1"
 	beUtils "github.com/Aryaman6492/backend/pkg/utils"

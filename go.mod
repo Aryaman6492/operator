@@ -5,12 +5,13 @@ go 1.23.2
 toolchain go1.23.5
 
 require (
+	github.com/Aryaman6492/backend v0.0.26
 	github.com/Aryaman6492/node-agent v0.2.253
 	github.com/Aryaman6492/storage v0.0.158
 	github.com/armosec/armoapi-go v0.0.548
 	github.com/armosec/registryx v0.0.25
 	github.com/armosec/utils-go v0.0.58
-	github.com/armosec/utils-k8s-go v0.0.32
+	github.com/Aryaman6492/utils-k8s-go v0.0.32
 	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/cenkalti/backoff/v4 v4.3.0
 	github.com/deckarep/golang-set/v2 v2.7.0
@@ -20,7 +21,6 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/goradd/maps v1.2.0
 	github.com/gorilla/mux v1.8.1
-	github.com/Aryaman6492/backend v0.0.26
 	github.com/kubescape/go-logger v0.0.23
 	github.com/kubescape/k8s-interface v0.0.189
 	github.com/kubescape/kubescape-network-scanner v0.0.15
@@ -44,7 +44,9 @@ require (
 )
 
 replace github.com/Aryaman6492/node-agent => /home/ripeey/Desktop/cqs-sensor/copycon/node-agent
+
 replace github.com/Aryaman6492/backend => /home/ripeey/Desktop/cqs-sensor/copycon/backend
+replace github.com/Aryaman6492/utils-k8s-go => /home/ripeey/Desktop/cqs-sensor/copycon/utils-k8s-go
 replace github.com/Aryaman6492/storage => /home/ripeey/Desktop/cqs-sensor/copycon/storage
 
 require (
@@ -192,6 +194,7 @@ require (
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.17.11 // indirect
+	github.com/kubescape/backend v0.0.18 // indirect
 	github.com/kubescape/kubescape/v3 v3.0.4 // indirect
 	github.com/kubescape/rbac-utils v0.0.21-0.20230806101615-07e36f555520 // indirect
 	github.com/kubescape/regolibrary v1.0.315 // indirect

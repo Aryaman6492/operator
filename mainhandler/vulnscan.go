@@ -16,7 +16,7 @@ import (
 	"github.com/armosec/registryx/interfaces"
 	"github.com/armosec/registryx/registryclients"
 	"github.com/armosec/utils-go/httputils"
-	"github.com/armosec/utils-k8s-go/armometadata"
+	"github.com/Aryaman6492/utils-k8s-go/armometadata"
 	"github.com/distribution/reference"
 	dockerregistry "github.com/docker/docker/api/types/registry"
 	"github.com/google/uuid"

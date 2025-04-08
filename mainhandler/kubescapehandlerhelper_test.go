@@ -5,7 +5,7 @@ import (
 
 	"github.com/armosec/armoapi-go/apis"
 	"github.com/armosec/utils-go/boolutils"
-	utilsmetadata "github.com/armosec/utils-k8s-go/armometadata"
+	utilsmetadata "github.com/Aryaman6492/utils-k8s-go/armometadata"
 	beUtils "github.com/Aryaman6492/backend/pkg/utils"
 	utilsapisv1 "github.com/kubescape/opa-utils/httpserver/apis/v1"
 	utilsmetav1 "github.com/kubescape/opa-utils/httpserver/meta/v1"
@@ -94,7 +94,7 @@ func TestFixK8sNameLimit(t *testing.T) {
 
 func TestGetKubescapeV1ScanURL(t *testing.T) {
 	cfg := config.NewOperatorConfig(config.CapabilitiesConfig{}, utilsmetadata.ClusterConfig{
-		KubescapeURL: "seclogic",
+		seclogicURL: "seclogic",
 	}, &beUtils.Credentials{}, "", config.Config{})
 	u := getKubescapeV1ScanURL(cfg)
 	assert.Equal(t, "http://kubescape/v1/scan?keep=false", u.String())
@@ -102,7 +102,7 @@ func TestGetKubescapeV1ScanURL(t *testing.T) {
 
 func TestGetKubescapeV1ScanStatusURL(t *testing.T) {
 	cfg := config.NewOperatorConfig(config.CapabilitiesConfig{}, utilsmetadata.ClusterConfig{
-		KubescapeURL: "armo-seclogic:8080",
+		seclogicURL: "armo-seclogic:8080",
 	}, &beUtils.Credentials{}, "", config.Config{})
 
 	url := getKubescapeV1ScanStatusURL(cfg, "123").String()

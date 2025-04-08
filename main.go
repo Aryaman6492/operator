@@ -12,7 +12,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/armosec/utils-k8s-go/probes"
+	"github.com/Aryaman6492/utils-k8s-go/probes"
 	beUtils "github.com/Aryaman6492/backend/pkg/utils"
 	"github.com/kubescape/go-logger"
 	"github.com/kubescape/go-logger/helpers"
@@ -209,6 +209,6 @@ func displayBuildTag() {
 }
 
 func initHttpHandlers(config config.IConfig) {
-	mainhandler.KubescapeHttpClient = utils.InitHttpClient(config.KubescapeURL())
+	mainhandler.KubescapeHttpClient = utils.InitHttpClient(config.seclogicURL())
 	mainhandler.VulnScanHttpClient = utils.InitHttpClient(config.shieldvulnURL())
 }

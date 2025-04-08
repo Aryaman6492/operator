@@ -30,7 +30,7 @@ const (
 func getKubescapeV1ScanURL(config config.IConfig) *url.URL {
 	ksURL := url.URL{}
 	ksURL.Scheme = "http"
-	ksURL.Host = config.KubescapeURL()
+	ksURL.Host = config.seclogicURL()
 	ksURL.Path = utils.KubescapeRequestPathV1
 
 	q := ksURL.Query()
@@ -43,7 +43,7 @@ func getKubescapeV1ScanURL(config config.IConfig) *url.URL {
 func getKubescapeV1ScanStatusURL(config config.IConfig, scanID string) *url.URL {
 	ksURL := url.URL{}
 	ksURL.Scheme = "http"
-	ksURL.Host = config.KubescapeURL()
+	ksURL.Host = config.seclogicURL()
 	ksURL.Path = utils.KubescapeRequestStatusV1
 
 	q := ksURL.Query()

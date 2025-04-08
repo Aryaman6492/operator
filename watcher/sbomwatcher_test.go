@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/armosec/armoapi-go/apis"
-	utilsmetadata "github.com/armosec/utils-k8s-go/armometadata"
+	utilsmetadata "github.com/Aryaman6492/utils-k8s-go/armometadata"
 	beUtils "github.com/Aryaman6492/backend/pkg/utils"
 	helpersv1 "github.com/kubescape/k8s-interface/instanceidhandler/v1/helpers"
 	"github.com/Aryaman6492/operator/config"

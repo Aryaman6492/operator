@@ -2,7 +2,7 @@ package mainhandler
 
 import (
 	"github.com/armosec/armoapi-go/apis"
-	pkgwlid "github.com/armosec/utils-k8s-go/wlid"
+	pkgwlid "github.com/Aryaman6492/utils-k8s-go/wlid"
 )
 
 // Extract vuln-scan command from create cronjob command,

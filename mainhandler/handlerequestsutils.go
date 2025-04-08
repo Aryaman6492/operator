@@ -6,7 +6,7 @@ import (
 
 	"github.com/armosec/armoapi-go/apis"
 	"github.com/armosec/utils-go/httputils"
-	"github.com/armosec/utils-k8s-go/probes"
+	"github.com/Aryaman6492/utils-k8s-go/probes"
 	"github.com/kubescape/go-logger"
 	"github.com/Aryaman6492/operator/config"
 )

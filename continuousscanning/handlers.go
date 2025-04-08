@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	armoapi "github.com/armosec/armoapi-go/apis"
-	armowlid "github.com/armosec/utils-k8s-go/wlid"
+	armowlid "github.com/Aryaman6492/utils-k8s-go/wlid"
 	sets "github.com/deckarep/golang-set/v2"
 	"github.com/kubescape/go-logger"
 	"github.com/kubescape/go-logger/helpers"
