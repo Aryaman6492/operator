@@ -35,7 +35,7 @@ func (actionHandler *ActionHandler) deleteKubescapeCronJob(ctx context.Context) 
 	_, span := otel.Tracer("").Start(ctx, "actionHandler.deleteKubescapeCronJob")
 	defer span.End()
 
-	if !actionHandler.config.Components().KubescapeScheduler.Enabled {
+	if !actionHandler.config.Components().SeclogicScheduler.Enabled {
 		return errors.New("KubescapeScheduler is not enabled")
 	}
 
@@ -58,7 +58,7 @@ func (actionHandler *ActionHandler) updateKubescapeCronJob(ctx context.Context) 
 	_, span := otel.Tracer("").Start(ctx, "actionHandler.updateKubescapeCronJob")
 	defer span.End()
 
-	if !actionHandler.config.Components().KubescapeScheduler.Enabled {
+	if !actionHandler.config.Components().SeclogicScheduler.Enabled {
 		return errors.New("KubescapeScheduler is not enabled")
 	}
 
@@ -89,7 +89,7 @@ func (actionHandler *ActionHandler) setKubescapeCronJob(ctx context.Context) err
 	_, span := otel.Tracer("").Start(ctx, "actionHandler.setKubescapeCronJob")
 	defer span.End()
 
-	if !actionHandler.config.Components().KubescapeScheduler.Enabled {
+	if !actionHandler.config.Components().SeclogicScheduler.Enabled {
 		return errors.New("KubescapeScheduler is not enabled")
 	}
 
@@ -158,7 +158,7 @@ func (actionHandler *ActionHandler) seclogicScan(ctx context.Context) error {
 	ctx, span := otel.Tracer("").Start(ctx, "actionHandler.seclogicScan")
 	defer span.End()
 
-	if !actionHandler.config.Components().Kubescape.Enabled {
+	if !actionHandler.config.Components().Seclogic.Enabled {
 		return errors.New("seclogic is not enabled")
 	}
 

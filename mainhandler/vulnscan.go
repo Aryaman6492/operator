@@ -88,7 +88,7 @@ func (actionHandler *ActionHandler) scanRegistriesV2AndUpdateStatus(ctx context.
 	ctx, span := otel.Tracer("").Start(ctx, "actionHandler.scanRegistriesV2")
 	defer span.End()
 
-	if !actionHandler.config.Components().shieldvuln.Enabled {
+	if !actionHandler.config.Components().Shieldvuln.Enabled {
 		return errors.New("shieldvuln is not enabled")
 	}
 
@@ -215,7 +215,7 @@ func (actionHandler *ActionHandler) scanImage(ctx context.Context) error {
 	ctx, span := otel.Tracer("").Start(ctx, "actionHandler.scanImage")
 	defer span.End()
 
-	if !actionHandler.config.Components().shieldvuln.Enabled {
+	if !actionHandler.config.Components().Shieldvuln.Enabled {
 		return errors.New("shieldvuln is not enabled")
 	}
 
@@ -244,7 +244,7 @@ func (actionHandler *ActionHandler) scanApplicationProfile(ctx context.Context) 
 	ctx, span := otel.Tracer("").Start(ctx, "actionHandler.scanApplicationProfile")
 	defer span.End()
 
-	if !actionHandler.config.Components().shieldvuln.Enabled {
+	if !actionHandler.config.Components().Shieldvuln.Enabled {
 		return errors.New("shieldvuln is not enabled")
 	}
 

@@ -143,7 +143,7 @@ func (mainHandler *MainHandler) HandleWatchers(ctx context.Context) {
 	commandWatchHandler := watcher.NewCommandWatchHandler(mainHandler.k8sAPI, mainHandler.config)
 	operatorCommandsHandler := watcher.NewOperatorCommandsHandler(ctx, mainHandler.eventWorkerPool, mainHandler.k8sAPI, commandWatchHandler, mainHandler.config)
 
-	if mainHandler.config.Components().shieldvuln.Enabled {
+	if mainHandler.config.Components().Shieldvuln.Enabled {
 		eventQueue := watcher.NewCooldownQueue()
 		watchHandler := watcher.NewWatchHandler(mainHandler.config, mainHandler.k8sAPI, mainHandler.ksStorageClient, eventQueue)
 

@@ -19,7 +19,7 @@ func (actionHandler *ActionHandler) setVulnScanCronJob(ctx context.Context) erro
 	_, span := otel.Tracer("").Start(ctx, "actionHandler.setVulnScanCronJob")
 	defer span.End()
 
-	if !actionHandler.config.Components().shieldvulnScheduler.Enabled {
+	if !actionHandler.config.Components().ShieldvulnScheduler.Enabled {
 		return errors.New("shieldvulnScheduler is not enabled")
 	}
 
@@ -59,7 +59,7 @@ func (actionHandler *ActionHandler) updateVulnScanCronJob(ctx context.Context) e
 	_, span := otel.Tracer("").Start(ctx, "actionHandler.updateVulnScanCronJob")
 	defer span.End()
 
-	if !actionHandler.config.Components().shieldvulnScheduler.Enabled {
+	if !actionHandler.config.Components().ShieldvulnScheduler.Enabled {
 		return errors.New("shieldvulnScheduler is not enabled")
 	}
 
@@ -94,7 +94,7 @@ func (actionHandler *ActionHandler) deleteVulnScanCronJob(ctx context.Context) e
 	_, span := otel.Tracer("").Start(ctx, "actionHandler.deleteVulnScanCronJob")
 	defer span.End()
 
-	if !actionHandler.config.Components().shieldvulnScheduler.Enabled {
+	if !actionHandler.config.Components().ShieldvulnScheduler.Enabled {
 		return errors.New("shieldvulnScheduler is not enabled")
 	}
 

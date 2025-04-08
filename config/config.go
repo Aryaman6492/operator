@@ -37,10 +37,10 @@ type Capabilities struct {
 
 type Components struct {
 	HostScanner        Component `mapstructure:"hostScanner"`
-	Kubescape          Component `mapstructure:"seclogic"`
-	KubescapeScheduler Component `mapstructure:"seclogicScheduler"`
-	shieldvuln           Component `mapstructure:"shieldvuln"`
-	shieldvulnScheduler  Component `mapstructure:"shieldvulnScheduler"`
+	Seclogic          Component `mapstructure:"seclogic"`
+	SeclogicScheduler Component `mapstructure:"seclogicScheduler"`
+	Shieldvuln           Component `mapstructure:"shieldvuln"`
+	ShieldvulnScheduler  Component `mapstructure:"shieldvulnScheduler"`
 	NodeAgent          Component `mapstructure:"nodeAgent"`
 	Operator           Component `mapstructure:"operator"`
 	OtelCollector      Component `mapstructure:"otelCollector"`
