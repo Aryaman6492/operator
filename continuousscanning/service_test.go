@@ -151,7 +151,7 @@ func TestAddEventHandler(t *testing.T) {
 			tl := NewTargetLoader(f)
 			// We use the spy handler later to verify if it's been called
 			spyH := &spyHandler{called: false, wg: resourcesCreatedWg, mx: &sync.RWMutex{}}
-			operatorConfig := config.NewOperatorConfig(config.CapabilitiesConfig{}, utilsmetadata.ClusterConfig{}, &beUtils.Credentials{}, "", config.Config{Namespace: "kubescape"})
+			operatorConfig := config.NewOperatorConfig(config.CapabilitiesConfig{}, utilsmetadata.ClusterConfig{}, &beUtils.Credentials{}, "", config.Config{Namespace: "seclogic"})
 			css := NewContinuousScanningService(operatorConfig, dynClient, tl, spyH)
 			css.Launch(ctx)
 

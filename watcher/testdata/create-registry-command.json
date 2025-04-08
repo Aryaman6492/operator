@@ -8,7 +8,7 @@
             "seclogic.io/app-name": "operator"
         },
         "name": "52601522-359f-4417-a140-cf60e57302f6",
-        "namespace": "kubescape",
+        "namespace": "seclogic",
         "uid": "e67cc9d0-d486-4a77-8f32-572bf952e3de"
     },
     "spec": {

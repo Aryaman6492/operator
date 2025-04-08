@@ -143,14 +143,14 @@ func (mainHandler *MainHandler) HandleWatchers(ctx context.Context) {
 	commandWatchHandler := watcher.NewCommandWatchHandler(mainHandler.k8sAPI, mainHandler.config)
 	operatorCommandsHandler := watcher.NewOperatorCommandsHandler(ctx, mainHandler.eventWorkerPool, mainHandler.k8sAPI, commandWatchHandler, mainHandler.config)
 
-	if mainHandler.config.Components().Kubevuln.Enabled {
+	if mainHandler.config.Components().shieldvuln.Enabled {
 		eventQueue := watcher.NewCooldownQueue()
 		watchHandler := watcher.NewWatchHandler(mainHandler.config, mainHandler.k8sAPI, mainHandler.ksStorageClient, eventQueue)
 
 		registryCommandsHandler := watcher.NewRegistryCommandsHandler(ctx, mainHandler.k8sAPI, commandWatchHandler, mainHandler.config)
 		go registryCommandsHandler.Start()
 
-		// wait for the kubevuln component to be ready
+		// wait for the shieldvuln component to be ready
 		logger.L().Info("Waiting for vuln scan to be ready")
 		waitFunc := isActionNeedToWait(apis.Command{CommandName: apis.TypeScanImages})
 		waitFunc(mainHandler.config)

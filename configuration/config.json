@@ -3,7 +3,7 @@
   "excludeNamespaces": "kube-system,kubescape",
   "includeNamespaces": "",
   "matchingrulesfilename": "/etc/config/matchingRules.json",
-  "namespace": "kubescape",
+  "namespace": "seclogic",
   "port": "4002",
   "triggersecurityframework": false,
   "workerconcurrency": 3

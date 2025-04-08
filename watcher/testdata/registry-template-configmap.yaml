@@ -52,7 +52,7 @@ data:
                     subPath: request-body.json
                     readOnly: true
               restartPolicy: Never
-              serviceAccountName: kubevuln
+              serviceAccountName: shieldvuln
               automountServiceAccountToken: false
               nodeSelector:
               affinity:

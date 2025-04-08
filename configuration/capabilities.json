@@ -11,16 +11,16 @@
     "hostScanner": {
       "enabled": true
     },
-    "kubescape": {
+    "seclogic": {
       "enabled": true
     },
     "kubescapeScheduler": {
       "enabled": true
     },
-    "kubevuln": {
+    "shieldvuln": {
       "enabled": true
     },
-    "kubevulnScheduler": {
+    "shieldvulnScheduler": {
       "enabled": true
     },
     "nodeAgent": {

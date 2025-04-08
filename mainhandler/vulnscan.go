@@ -37,7 +37,7 @@ import (
 func getAPScanURL(config config.IConfig) *url.URL {
 	return &url.URL{
 		Scheme: "http",
-		Host:   config.KubevulnURL(),
+		Host:   config.shieldvulnURL(),
 		Path:   fmt.Sprintf("%s/%s", apis.VulnerabilityScanCommandVersion, apis.ApplicationProfileScanCommandPath),
 	}
 }
@@ -47,7 +47,7 @@ const noImagesToScanError = "no images to scan"
 func getVulnScanURL(config config.IConfig) *url.URL {
 	return &url.URL{
 		Scheme: "http",
-		Host:   config.KubevulnURL(),
+		Host:   config.shieldvulnURL(),
 		Path:   fmt.Sprintf("%s/%s", apis.VulnerabilityScanCommandVersion, apis.ContainerScanCommandPath),
 	}
 }
@@ -55,7 +55,7 @@ func getVulnScanURL(config config.IConfig) *url.URL {
 func getRegistryScanURL(config config.IConfig) *url.URL {
 	return &url.URL{
 		Scheme: "http",
-		Host:   config.KubevulnURL(),
+		Host:   config.shieldvulnURL(),
 		Path:   fmt.Sprintf("%s/%s", apis.VulnerabilityScanCommandVersion, apis.RegistryScanCommandPath),
 	}
 }
@@ -88,8 +88,8 @@ func (actionHandler *ActionHandler) scanRegistriesV2AndUpdateStatus(ctx context.
 	ctx, span := otel.Tracer("").Start(ctx, "actionHandler.scanRegistriesV2")
 	defer span.End()
 
-	if !actionHandler.config.Components().Kubevuln.Enabled {
-		return errors.New("kubevuln is not enabled")
+	if !actionHandler.config.Components().shieldvuln.Enabled {
+		return errors.New("shieldvuln is not enabled")
 	}
 
 	scanTime := time.Now()
@@ -215,8 +215,8 @@ func (actionHandler *ActionHandler) scanImage(ctx context.Context) error {
 	ctx, span := otel.Tracer("").Start(ctx, "actionHandler.scanImage")
 	defer span.End()
 
-	if !actionHandler.config.Components().Kubevuln.Enabled {
-		return errors.New("kubevuln is not enabled")
+	if !actionHandler.config.Components().shieldvuln.Enabled {
+		return errors.New("shieldvuln is not enabled")
 	}
 
 	pod, _ := actionHandler.sessionObj.Command.Args[utils.ArgsPod].(*corev1.Pod)
@@ -244,8 +244,8 @@ func (actionHandler *ActionHandler) scanApplicationProfile(ctx context.Context) 
 	ctx, span := otel.Tracer("").Start(ctx, "actionHandler.scanApplicationProfile")
 	defer span.End()
 
-	if !actionHandler.config.Components().Kubevuln.Enabled {
-		return errors.New("kubevuln is not enabled")
+	if !actionHandler.config.Components().shieldvuln.Enabled {
+		return errors.New("shieldvuln is not enabled")
 	}
 
 	// get the pod from the session object
@@ -393,7 +393,7 @@ func prepareSessionChain(sessionObj *utils.SessionObj, websocketScanCommand *api
 	websocketScanCommand.Session.JobIDs = append(websocketScanCommand.Session.JobIDs, websocketScanCommand.GetJobID())
 }
 
-// send workload to the kubevuln with credentials
+// send workload to the shieldvuln with credentials
 func sendWorkloadWithCredentials(ctx context.Context, scanUrl *url.URL, command apis.ImageScanCommand) error {
 	jsonScannerC, err := json.Marshal(command)
 
@@ -412,7 +412,7 @@ func sendWorkloadWithCredentials(ctx context.Context, scanUrl *url.URL, command 
 		return fmt.Errorf("failed to marshal websocketScanCommand: %w", err)
 	}
 	if command.GetWlid() == "" {
-		logger.L().Debug(fmt.Sprintf("sending scan command to kubevuln: %s", string(jsonScannerC)))
+		logger.L().Debug(fmt.Sprintf("sending scan command to shieldvuln: %s", string(jsonScannerC)))
 	}
 
 	creds := command.GetCreds()

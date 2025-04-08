@@ -94,7 +94,7 @@ func TestFixK8sNameLimit(t *testing.T) {
 
 func TestGetKubescapeV1ScanURL(t *testing.T) {
 	cfg := config.NewOperatorConfig(config.CapabilitiesConfig{}, utilsmetadata.ClusterConfig{
-		KubescapeURL: "kubescape",
+		KubescapeURL: "seclogic",
 	}, &beUtils.Credentials{}, "", config.Config{})
 	u := getKubescapeV1ScanURL(cfg)
 	assert.Equal(t, "http://kubescape/v1/scan?keep=false", u.String())

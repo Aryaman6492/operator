@@ -18,7 +18,7 @@ If you will be running the Operator as part of the Kubescape cluster components,
 
 	```    
 	kubectl port-forward -n kubescape service/kubescape 8080:8080 & 
-	kubectl port-forward -n kubescape service/kubevuln 8081:8080 & 
+	kubectl port-forward -n kubescape service/shieldvuln 8081:8080 & 
 	```
 
 3. Add configuration files.
@@ -42,16 +42,16 @@ If you will be running the Operator as part of the Kubescape cluster components,
     "hostScanner": {
       "enabled": true
     },
-    "kubescape": {
+    "seclogic": {
       "enabled": true
     },
     "kubescapeScheduler": {
       "enabled": true
     },
-    "kubevuln": {
+    "shieldvuln": {
       "enabled": true
     },
-    "kubevulnScheduler": {
+    "shieldvulnScheduler": {
       "enabled": true
     },
     "nodeAgent": {
@@ -82,7 +82,7 @@ If you will be running the Operator as part of the Kubescape cluster components,
 
 ```json5
 {
-   "kubevulnURL": "127.0.0.1:8081",
+   "shieldvulnURL": "127.0.0.1:8081",
    "kubescapeURL": "127.0.0.1:8080",
    "accountID": "*********************",
    "clusterName": "******"
@@ -96,7 +96,7 @@ If you will be running the Operator as part of the Kubescape cluster components,
 {
   "cleanupdelay": 600000000000,
   "matchingrulesfilename": "/etc/config/matchingRules.json",
-  "namespace": "kubescape",
+  "namespace": "seclogic",
   "port": "4002",
   "triggersecurityframework": false,
   "workerconcurrency": 3
@@ -249,7 +249,7 @@ curl -X POST \
 ```
 </details>
 
-#### Trigger [Kubevuln](https://github.com/Aryaman6492/shieldvuln) scanning
+#### Trigger [shieldvuln](https://github.com/Aryaman6492/shieldvuln) scanning
 <details><summary>Example</summary>
 
 ```
@@ -267,7 +267,7 @@ curl -X POST \
 ```
 </details>
 
-#### Create a CronJob that will repeatedly trigger a Kubevuln scan
+#### Create a CronJob that will repeatedly trigger a shieldvuln scan
 <details><summary>Example</summary>
 
 ```
@@ -290,7 +290,7 @@ curl -X POST \
 ```
 </details>
 
-#### Update a CronJob that repeatedly triggers a Kubevuln scan
+#### Update a CronJob that repeatedly triggers a shieldvuln scan
 <details><summary>Example</summary>
 
 ```
@@ -313,7 +313,7 @@ curl -X POST \
 ```
 </details>
 
-#### Delete a CronJob that repeatedly triggers a Kubevuln scan
+#### Delete a CronJob that repeatedly triggers a shieldvuln scan
 <details><summary>Example</summary>
 
 ```
@@ -354,7 +354,7 @@ You can use the sample files below to setup your [VS code](https://www.armosec.i
             "program":  "${workspaceRoot}",
                  "env": {
                      "PORT": "4002",
-                     "NAMESPACE": "kubescape",
+                     "NAMESPACE": "seclogic",
                      "CONFIG": "${workspaceRoot}/.vscode/clusterData.json",
             },
             "args": [
@@ -378,7 +378,7 @@ For example:
 
 ```json5
 {
-    "kubevulnURL": "",
+    "shieldvulnURL": "",
     "kubescapeURL": "",
     "accountID": "*********************",
     "clusterName": "******"

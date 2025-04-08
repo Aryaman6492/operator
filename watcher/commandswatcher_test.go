@@ -46,7 +46,7 @@ func TestRegistryCommandWatch(t *testing.T) {
 	var cmd unstructured.Unstructured
 	err := json.Unmarshal(createRegistryCommand, &cmd)
 	require.NoError(t, err)
-	_, err = k8sAPI.DynamicClient.Resource(v1alpha1.SchemaGroupVersionResource).Namespace("kubescape").Create(ctx, &cmd, metav1.CreateOptions{})
+	_, err = k8sAPI.DynamicClient.Resource(v1alpha1.SchemaGroupVersionResource).Namespace("seclogic").Create(ctx, &cmd, metav1.CreateOptions{})
 	require.NoError(t, err)
 
 	// let registry command handler consume the create command
@@ -54,36 +54,36 @@ func TestRegistryCommandWatch(t *testing.T) {
 
 	// verify resources are created
 	resourceName := "kubescape-registry-scan-2122797310"
-	configMap, err := k8sAPI.KubernetesClient.CoreV1().ConfigMaps("kubescape").Get(ctx, resourceName, metav1.GetOptions{})
+	configMap, err := k8sAPI.KubernetesClient.CoreV1().ConfigMaps("seclogic").Get(ctx, resourceName, metav1.GetOptions{})
 	require.NoError(t, err)
 	require.NotNil(t, configMap)
-	secret, err := k8sAPI.KubernetesClient.CoreV1().Secrets("kubescape").Get(ctx, resourceName, metav1.GetOptions{})
+	secret, err := k8sAPI.KubernetesClient.CoreV1().Secrets("seclogic").Get(ctx, resourceName, metav1.GetOptions{})
 	require.NoError(t, err)
 	require.NotNil(t, secret)
-	cronjob, err := k8sAPI.KubernetesClient.BatchV1().CronJobs("kubescape").Get(ctx, resourceName, metav1.GetOptions{})
+	cronjob, err := k8sAPI.KubernetesClient.BatchV1().CronJobs("seclogic").Get(ctx, resourceName, metav1.GetOptions{})
 	require.NoError(t, err)
 	require.NotNil(t, cronjob)
 
 	// delete existing command - usually done by the BE
-	err = k8sAPI.DynamicClient.Resource(v1alpha1.SchemaGroupVersionResource).Namespace("kubescape").Delete(ctx, "52601522-359f-4417-a140-cf60e57302f6", metav1.DeleteOptions{})
+	err = k8sAPI.DynamicClient.Resource(v1alpha1.SchemaGroupVersionResource).Namespace("seclogic").Delete(ctx, "52601522-359f-4417-a140-cf60e57302f6", metav1.DeleteOptions{})
 	require.NoError(t, err)
 
 	// send delete command
 	deleteCommandStr := strings.ReplaceAll(string(createRegistryCommand), string(command.OperatorCommandTypeCreateRegistry), string(command.OperatorCommandTypeDeleteRegistry))
 	err = json.Unmarshal([]byte(deleteCommandStr), &cmd)
 	require.NoError(t, err)
-	_, err = k8sAPI.DynamicClient.Resource(v1alpha1.SchemaGroupVersionResource).Namespace("kubescape").Create(ctx, &cmd, metav1.CreateOptions{})
+	_, err = k8sAPI.DynamicClient.Resource(v1alpha1.SchemaGroupVersionResource).Namespace("seclogic").Create(ctx, &cmd, metav1.CreateOptions{})
 	require.NoError(t, err)
 
 	// let registry command handler consume the command
 	time.Sleep(time.Second * 10)
 
 	// verify resources are deleted
-	_, err = k8sAPI.KubernetesClient.CoreV1().ConfigMaps("kubescape").Get(ctx, resourceName, metav1.GetOptions{})
+	_, err = k8sAPI.KubernetesClient.CoreV1().ConfigMaps("seclogic").Get(ctx, resourceName, metav1.GetOptions{})
 	require.ErrorContains(t, err, "not found")
-	_, err = k8sAPI.KubernetesClient.CoreV1().Secrets("kubescape").Get(ctx, resourceName, metav1.GetOptions{})
+	_, err = k8sAPI.KubernetesClient.CoreV1().Secrets("seclogic").Get(ctx, resourceName, metav1.GetOptions{})
 	require.ErrorContains(t, err, "not found")
-	_, err = k8sAPI.KubernetesClient.BatchV1().CronJobs("kubescape").Get(ctx, resourceName, metav1.GetOptions{})
+	_, err = k8sAPI.KubernetesClient.BatchV1().CronJobs("seclogic").Get(ctx, resourceName, metav1.GetOptions{})
 	require.ErrorContains(t, err, "not found")
 
 }
@@ -108,7 +108,7 @@ func setupEnvAndWatchers(t *testing.T, ctx context.Context, k8sAPI *k8sinterface
 	// add kubescape namespace
 	namespace := &corev1.Namespace{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: "kubescape",
+			Name: "seclogic",
 		},
 	}
 	_, err = k8sAPI.KubernetesClient.CoreV1().Namespaces().Create(ctx, namespace, metav1.CreateOptions{})
@@ -117,11 +117,11 @@ func setupEnvAndWatchers(t *testing.T, ctx context.Context, k8sAPI *k8sinterface
 	// add registry cronjob template
 	var cjTemplate corev1.ConfigMap
 	require.NoError(t, yaml.Unmarshal(registryTemplateConfiMap, &cjTemplate))
-	_, err = k8sAPI.KubernetesClient.CoreV1().ConfigMaps("kubescape").Create(ctx, &cjTemplate, metav1.CreateOptions{})
+	_, err = k8sAPI.KubernetesClient.CoreV1().ConfigMaps("seclogic").Create(ctx, &cjTemplate, metav1.CreateOptions{})
 	require.NoError(t, err)
 
 	// start watcher
-	operatorConfig := config.NewOperatorConfig(config.CapabilitiesConfig{}, utilsmetadata.ClusterConfig{}, &beUtils.Credentials{}, "", config.Config{Namespace: "kubescape"})
+	operatorConfig := config.NewOperatorConfig(config.CapabilitiesConfig{}, utilsmetadata.ClusterConfig{}, &beUtils.Credentials{}, "", config.Config{Namespace: "seclogic"})
 	commandWatchHandler := NewCommandWatchHandler(k8sAPI, operatorConfig)
 	registryCommandsHandler := NewRegistryCommandsHandler(ctx, k8sAPI, commandWatchHandler, operatorConfig)
 	go registryCommandsHandler.Start()

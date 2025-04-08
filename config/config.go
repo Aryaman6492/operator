@@ -37,10 +37,10 @@ type Capabilities struct {
 
 type Components struct {
 	HostScanner        Component `mapstructure:"hostScanner"`
-	Kubescape          Component `mapstructure:"kubescape"`
+	Kubescape          Component `mapstructure:"seclogic"`
 	KubescapeScheduler Component `mapstructure:"kubescapeScheduler"`
-	Kubevuln           Component `mapstructure:"kubevuln"`
-	KubevulnScheduler  Component `mapstructure:"kubevulnScheduler"`
+	shieldvuln           Component `mapstructure:"shieldvuln"`
+	shieldvulnScheduler  Component `mapstructure:"shieldvulnScheduler"`
 	NodeAgent          Component `mapstructure:"nodeAgent"`
 	Operator           Component `mapstructure:"operator"`
 	OtelCollector      Component `mapstructure:"otelCollector"`
@@ -121,7 +121,7 @@ type IConfig interface {
 	MatchingRulesFilename() string
 	TriggerSecurityFramework() bool
 	KubescapeURL() string
-	KubevulnURL() string
+	shieldvulnURL() string
 	SkipNamespace(ns string) bool
 	GuardTime() time.Duration
 }
@@ -159,8 +159,8 @@ func (c *OperatorConfig) NodeSbomGenerationEnabled() bool {
 	return c.components.Capabilities.NodeSbomGeneration == "enable"
 }
 
-func (c *OperatorConfig) KubevulnURL() string {
-	return c.clusterConfig.KubevulnURL
+func (c *OperatorConfig) shieldvulnURL() string {
+	return c.clusterConfig.shieldvulnURL
 }
 
 func (c *OperatorConfig) KubescapeURL() string {
@@ -235,7 +235,7 @@ func LoadConfig(path string) (Config, error) {
 	viper.SetConfigName("config")
 	viper.SetConfigType("json")
 
-	viper.SetDefault("namespace", "kubescape")
+	viper.SetDefault("namespace", "seclogic")
 	viper.SetDefault("port", "4002")
 	viper.SetDefault("cleanupDelay", 10*time.Minute)
 	viper.SetDefault("workerConcurrency", 3)

@@ -13,19 +13,19 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-const VulnScanCronjobTemplateName = "kubevuln-cronjob-template"
+const VulnScanCronjobTemplateName = "shieldvuln-cronjob-template"
 
 func (actionHandler *ActionHandler) setVulnScanCronJob(ctx context.Context) error {
 	_, span := otel.Tracer("").Start(ctx, "actionHandler.setVulnScanCronJob")
 	defer span.End()
 
-	if !actionHandler.config.Components().KubevulnScheduler.Enabled {
-		return errors.New("KubevulnScheduler is not enabled")
+	if !actionHandler.config.Components().shieldvulnScheduler.Enabled {
+		return errors.New("shieldvulnScheduler is not enabled")
 	}
 
 	req := getVulnScanRequest(actionHandler.sessionObj.Command)
 
-	name := fixK8sCronJobNameLimit(fmt.Sprintf("%s-%d", "kubevuln-schedule", rand.NewSource(time.Now().UnixNano()).Int63()))
+	name := fixK8sCronJobNameLimit(fmt.Sprintf("%s-%d", "shieldvuln-schedule", rand.NewSource(time.Now().UnixNano()).Int63()))
 
 	if err := createConfigMapForTriggerRequest(actionHandler.k8sAPI, actionHandler.config.Namespace(), name, req); err != nil {
 		return err
@@ -59,8 +59,8 @@ func (actionHandler *ActionHandler) updateVulnScanCronJob(ctx context.Context) e
 	_, span := otel.Tracer("").Start(ctx, "actionHandler.updateVulnScanCronJob")
 	defer span.End()
 
-	if !actionHandler.config.Components().KubevulnScheduler.Enabled {
-		return errors.New("KubevulnScheduler is not enabled")
+	if !actionHandler.config.Components().shieldvulnScheduler.Enabled {
+		return errors.New("shieldvulnScheduler is not enabled")
 	}
 
 	scanJobParams := getJobParams(actionHandler.sessionObj.Command)
@@ -94,8 +94,8 @@ func (actionHandler *ActionHandler) deleteVulnScanCronJob(ctx context.Context) e
 	_, span := otel.Tracer("").Start(ctx, "actionHandler.deleteVulnScanCronJob")
 	defer span.End()
 
-	if !actionHandler.config.Components().KubevulnScheduler.Enabled {
-		return errors.New("KubevulnScheduler is not enabled")
+	if !actionHandler.config.Components().shieldvulnScheduler.Enabled {
+		return errors.New("shieldvulnScheduler is not enabled")
 	}
 
 	scanJobParams := getJobParams(actionHandler.sessionObj.Command)
