@@ -120,8 +120,8 @@ type IConfig interface {
 	CleanUpRoutineInterval() time.Duration
 	MatchingRulesFilename() string
 	TriggerSecurityFramework() bool
-	seclogicURL() string
-	shieldvulnURL() string
+	SeclogicURL() string
+	ShieldvulnURL() string
 	SkipNamespace(ns string) bool
 	GuardTime() time.Duration
 }
@@ -159,12 +159,12 @@ func (c *OperatorConfig) NodeSbomGenerationEnabled() bool {
 	return c.components.Capabilities.NodeSbomGeneration == "enable"
 }
 
-func (c *OperatorConfig) shieldvulnURL() string {
-	return c.clusterConfig.shieldvulnURL
+func (c *OperatorConfig) ShieldvulnURL() string {
+	return c.clusterConfig.ShieldvulnURL
 }
 
-func (c *OperatorConfig) seclogicURL() string {
-	return c.clusterConfig.seclogicURL
+func (c *OperatorConfig) SeclogicURL() string {
+	return c.clusterConfig.SeclogicURL
 }
 
 func (c *OperatorConfig) TriggerSecurityFramework() bool {

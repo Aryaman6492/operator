@@ -37,7 +37,7 @@ import (
 func getAPScanURL(config config.IConfig) *url.URL {
 	return &url.URL{
 		Scheme: "http",
-		Host:   config.shieldvulnURL(),
+		Host:   config.ShieldvulnURL(),
 		Path:   fmt.Sprintf("%s/%s", apis.VulnerabilityScanCommandVersion, apis.ApplicationProfileScanCommandPath),
 	}
 }
@@ -47,7 +47,7 @@ const noImagesToScanError = "no images to scan"
 func getVulnScanURL(config config.IConfig) *url.URL {
 	return &url.URL{
 		Scheme: "http",
-		Host:   config.shieldvulnURL(),
+		Host:   config.ShieldvulnURL(),
 		Path:   fmt.Sprintf("%s/%s", apis.VulnerabilityScanCommandVersion, apis.ContainerScanCommandPath),
 	}
 }
@@ -55,7 +55,7 @@ func getVulnScanURL(config config.IConfig) *url.URL {
 func getRegistryScanURL(config config.IConfig) *url.URL {
 	return &url.URL{
 		Scheme: "http",
-		Host:   config.shieldvulnURL(),
+		Host:   config.ShieldvulnURL(),
 		Path:   fmt.Sprintf("%s/%s", apis.VulnerabilityScanCommandVersion, apis.RegistryScanCommandPath),
 	}
 }

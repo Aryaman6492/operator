@@ -209,6 +209,6 @@ func displayBuildTag() {
 }
 
 func initHttpHandlers(config config.IConfig) {
-	mainhandler.KubescapeHttpClient = utils.InitHttpClient(config.seclogicURL())
-	mainhandler.VulnScanHttpClient = utils.InitHttpClient(config.shieldvulnURL())
+	mainhandler.KubescapeHttpClient = utils.InitHttpClient(config.SeclogicURL())
+	mainhandler.VulnScanHttpClient = utils.InitHttpClient(config.ShieldvulnURL())
 }

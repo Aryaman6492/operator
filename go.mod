@@ -8,10 +8,10 @@ require (
 	github.com/Aryaman6492/backend v0.0.26
 	github.com/Aryaman6492/node-agent v0.2.253
 	github.com/Aryaman6492/storage v0.0.158
-	github.com/armosec/armoapi-go v0.0.548
+	github.com/Aryaman6492/utils-k8s-go v0.0.32
+	github.com/armosec/armoapi-go v0.0.552
 	github.com/armosec/registryx v0.0.25
 	github.com/armosec/utils-go v0.0.58
-	github.com/Aryaman6492/utils-k8s-go v0.0.32
 	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/cenkalti/backoff/v4 v4.3.0
 	github.com/deckarep/golang-set/v2 v2.7.0
@@ -46,7 +46,9 @@ require (
 replace github.com/Aryaman6492/node-agent => /home/ripeey/Desktop/cqs-sensor/copycon/node-agent
 
 replace github.com/Aryaman6492/backend => /home/ripeey/Desktop/cqs-sensor/copycon/backend
+
 replace github.com/Aryaman6492/utils-k8s-go => /home/ripeey/Desktop/cqs-sensor/copycon/utils-k8s-go
+
 replace github.com/Aryaman6492/storage => /home/ripeey/Desktop/cqs-sensor/copycon/storage
 
 require (
@@ -106,6 +108,7 @@ require (
 	github.com/anchore/stereoscope v0.0.11 // indirect
 	github.com/anchore/syft v1.18.1 // indirect
 	github.com/armosec/gojay v1.2.17 // indirect
+	github.com/armosec/utils-k8s-go v0.0.30 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
 	github.com/aws/aws-sdk-go v1.55.6-0.20240912145455-7112c0a0c2d0 // indirect
 	github.com/aws/aws-sdk-go-v2 v1.32.5 // indirect
